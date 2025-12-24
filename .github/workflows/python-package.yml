@@ -32,3 +32,13 @@ jobs:
         with:
           name: wheel-dist
           path: dist/*.whl
+
+      - name: Configure AWS creds (static)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload wheel
+        run: aws s3 cp dist/*.whl s3://my-bucket/glue/libs/
